@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { MapComponent } from './map/map.component';
 import { HotelInfoComponent } from './hotel-info/hotel-info.component';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { HotelInfoComponent } from './hotel-info/hotel-info.component';
     HttpClientModule,
     NgbModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBJKll2_6dcmjzCUSEIGXz2CAZlHaGv4S0'
+      apiKey: environment.applicationKey
     })
   ],
   providers: [],

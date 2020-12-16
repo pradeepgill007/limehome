@@ -1,4 +1,8 @@
-import { Component, Input, ViewChild, Output, EventEmitter  } from '@angular/core';
+/**
+ * @desc this is the hotel details component of the application to display name, address of the hotels
+ * @author Pradeep Gill pradeepgill713@gmail.com
+ */
+import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
 import { HotelInfo } from '../app-interface/';
 
