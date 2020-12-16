@@ -46,14 +46,11 @@ export class AppComponent implements OnInit {
         this.center.lat = resp.coords.latitude;
         this.center.lng = resp.coords.longitude;
         this.getHotelsNearBy();
-        alert(1);
       }, (err) => {
           this.getHotelsNearBy();
-          alert(2);
         },{ timeout: 2500, enableHighAccuracy: true });
     } else {
       this.getHotelsNearBy();
-      alert(3);
     }
   }
 
