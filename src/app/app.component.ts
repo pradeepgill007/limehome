@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
     // get the current position of the user
     this.getPosition().then(pos => {
       this.center.lat = pos.lat;
-      this.center.lat = pos.lng;
+      this.center.lng = pos.lng;
       this.getHotelsNearBy();
     });
     this.getHotelsNearBy();
