@@ -42,14 +42,13 @@ export class AppComponent implements OnInit {
 
     // access the user current location
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(resp => {
+      navigator.geolocation.getCurrentPosition(resp => {
         this.center.lat = resp.coords.latitude;
         this.center.lng = resp.coords.longitude;
         this.getHotelsNearBy();
-      },
-        err => {
+      }, (err) => {
           this.getHotelsNearBy();
-        });
+        },{ timeout: 5000, enableHighAccuracy: true });
     } else {
         this.getHotelsNearBy();
     }
@@ -62,15 +61,9 @@ export class AppComponent implements OnInit {
   getHotelsNearBy() {
 
     this.loading = true;
-    this.hotelInfo = [];
-    this.mapMarkers = [];
-
-    this.mapMarkers.length = 0;
-    this.hotelInfo.length = 0;
 
     this.httpClient.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.center.lat},${this.center.lng}&radius=1500&type=hotels&radius=500&key=${environment.applicationKey}`).subscribe((data: any) => {
 
-      this.loading = false;
       if (data.status === 'OK') {
         data.results.forEach((data: any, index: number) => {
 
@@ -97,6 +90,7 @@ export class AppComponent implements OnInit {
       } else {
         this.error = data.error_message || 'Not able to load hotels';
       }
+      this.loading = false;
     })
   }
 
