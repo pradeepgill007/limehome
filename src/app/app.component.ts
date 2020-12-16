@@ -35,50 +35,24 @@ export class AppComponent implements OnInit {
   // hotel detailed information
   hotelInfo: HotelInfo[] = [];
   loading: boolean = true;
-  userLocationAccess: boolean = false;
 
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
 
-    // get the current position of the user
-    this.getPosition().then(pos => {
-      console.log('pos', pos)
-      this.center.lat = pos.lat;
-      this.center.lng = pos.lng;
-      this.getHotelsNearBy();
-      this.hotelInfo = [];
-    this.mapMarkers = [];
-      this.userLocationAccess = true;
-    });
-
-    if (!this.userLocationAccess) {
-      this.hotelInfo = [];
-    this.mapMarkers = [];
-      this.getHotelsNearBy();
-    }
-
-  }
-
-  /**
-   * @desc this function will access the user current location
-   * 
-   */
-  getPosition(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resp => {
-        resolve({ lng: resp.coords.longitude, lat: resp.coords.latitude });
+    // access the user current location
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(resp => {
+        this.center.lat = resp.coords.latitude;
+        this.center.lng = resp.coords.longitude;
+        this.getHotelsNearBy();
       },
         err => {
-          reject(err);
+          this.getHotelsNearBy();
         });
-    });
-  }
-
-  changeCenter() {
-    this.center.lat = 48.1351;
-    this.center.lng = 11.5820;
-    this.getHotelsNearBy();
+    } else {
+        this.getHotelsNearBy();
+    }
   }
 
    /**
@@ -93,8 +67,6 @@ export class AppComponent implements OnInit {
 
     this.mapMarkers.length = 0;
     this.hotelInfo.length = 0;
-
-    alert(this.userLocationAccess);
 
     this.httpClient.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.center.lat},${this.center.lng}&radius=1500&type=hotels&radius=500&key=${environment.applicationKey}`).subscribe((data: any) => {
 
