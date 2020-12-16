@@ -24,8 +24,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPosition().then(pos => {
-      this.center.lat = pos.lng;
       this.center.lat = pos.lat;
+      this.center.lat = pos.lng;
       this.getHotels();
     });
     this.getHotels();
@@ -42,12 +42,19 @@ export class AppComponent implements OnInit {
     });
   }
 
+  changeCenter() {
+    this.center.lat = 48.1351;
+    this.center.lng = 11.5820;
+    this.getHotels();
+  }
+
   getHotels() {
     this.loading = true;
     this.hotelInfo = [];
     this.mapMarkers = [];
     this.httpClient.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.center.lat},${this.center.lng}&radius=1500&type=hotels&radius=500&key=AIzaSyBJKll2_6dcmjzCUSEIGXz2CAZlHaGv4S0`).subscribe((data: any) => {
 
+      console.log('data', data);
       this.loading = false;
       if (data.status === 'OK') {
         data.results.forEach((data: any, index: number) => {
@@ -70,7 +77,6 @@ export class AppComponent implements OnInit {
           this.hotelInfo.push(hptelInfoData);
           this.mapMarkers.push(mapMarkerData);
         });
-        alert('done');
       } else {
         this.error = data.error_message || 'Not able to load hotels';
       }
