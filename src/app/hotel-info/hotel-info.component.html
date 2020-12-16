@@ -1,0 +1,23 @@
+<div *ngIf="!error; else elseError">
+  <ngb-carousel #hotelInfoCarousel="ngbCarousel" (slide)="onSlide($event)" [showNavigationIndicators]="showNavigationIndicators" [interval]="0">
+    <ng-template ngbSlide *ngFor="let hotel of hotelInfo; let i = index" id="slideId-{{i}}">
+      <div class="hotelWrapper">
+        <div class="hotelItem hotelImage">
+          <img [src]="hotel.photo_reference" />
+        </div>
+        <div class="hotelItem hotelDesc">
+          <h1>{{hotel.name}}</h1>
+          <h2>{{hotel.vicinity}}</h2>
+          <h3>Rating {{hotel.rating}}</h3>
+          <p>Total user rate {{hotel.user_ratings_total}}</p>
+        </div>
+      </div>
+      <button>Book</button>
+    </ng-template>
+  </ngb-carousel>
+</div>
+  <ng-template #elseError>
+    <div class="globalError">
+        {{error}}
+    </div>
+</ng-template>

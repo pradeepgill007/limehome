@@ -1,0 +1,83 @@
+.hotelWrapper {
+  height: 300px;
+  padding: 8px 12px;
+  display: flex;
+
+  .hotelItem {
+    width: 50%;
+    display: flex;
+    overflow: hidden;
+
+    img {
+      height: 100%
+    }
+  }
+
+  .hotelImage{
+    align-items: center;
+  }
+
+  .hotelDesc {
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 0 10px;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1rem;
+      color: #808080;
+    }
+
+    h3 {
+      font-size: 1rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+}
+
+button{
+    width: 94%;
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: none;
+    margin: 0 12px 5px;
+    padding: 3px 0;
+    border-radius: 5px;
+    background-color: #fd7e14;
+}
+
+:host::ng-deep {
+    .carousel-control-prev {
+     opacity: 1;
+     left: 0.5%;
+     .carousel-control-prev-icon{
+         background-image: none;
+         border: solid black;
+         border-width: 0 3px 3px 0;
+         display: inline-block;
+         padding: 3px;
+         transform: rotate(135deg);
+         -webkit-transform: rotate(135deg);
+     }
+   } 
+   .carousel-control-next {
+     opacity: 1;
+     right: 0.5%;
+     .carousel-control-next-icon{
+         background-image: none;
+         border: solid black;
+         border-width: 0 3px 3px 0;
+         display: inline-block;
+         padding: 3px;
+         transform: rotate(-45deg);
+         -webkit-transform: rotate(-45deg);
+     }
+   } 
+ }

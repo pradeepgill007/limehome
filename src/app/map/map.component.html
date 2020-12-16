@@ -1,0 +1,21 @@
+<div class="mapContainer">
+  <div *ngIf="mapMarkers; else elseMarkerInfo" class="mapContainer">
+    <agm-map
+      [zoom]="zoom"
+      [latitude]="center.lat"
+      [longitude]="center.lng"
+    >
+      <agm-marker
+        (markerClick)="slideSlider(i)"
+        *ngFor="let mapMarker of mapMarkers; let i = index"
+        [iconUrl]="mapMarker.options.icon"
+        [latitude]="mapMarker.position.lat"
+        [longitude]="mapMarker.position.lng"
+      >
+      </agm-marker>
+    </agm-map>
+  </div>
+  <ng-template #elseMarkerInfo>
+    <div class="globalError">Enable to load the hotels locations</div>
+  </ng-template>
+</div>

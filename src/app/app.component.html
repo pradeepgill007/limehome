@@ -1,0 +1,15 @@
+<app-header></app-header>
+
+<div class='mapWrapper'>
+    <app-map [mapMarkers]=mapMarkers [center]=center (sliderSlideIndexEvent)="sliderSlideIndex($event)"></app-map>
+</div>
+
+<div *ngIf="!loading; else elseBlock" class='hotelInfoWrapper'>
+    <app-hotel-info [error]=error (changeMapMarkerEvent)="changeMapMarker($event)" [hotelInfo]=hotelInfo></app-hotel-info>
+</div>
+
+<ng-template #elseBlock>
+    <div class="loaderWrapper">
+        <div class="loader"></div>
+    </div>
+</ng-template>
