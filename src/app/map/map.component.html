@@ -1,4 +1,5 @@
 <div class="mapContainer">
+  <div>mapMarkers == {{mapMarkers.length}}</div>
   <div *ngIf="mapMarkers; else elseMarkerInfo" class="mapContainer">
     <agm-map
       [zoom]="zoom"

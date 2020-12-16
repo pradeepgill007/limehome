@@ -43,6 +43,9 @@ export class AppComponent implements OnInit {
   }
 
   getHotels() {
+    this.loading = true;
+    this.hotelInfo = [];
+    this.mapMarkers = [];
     this.httpClient.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.center.lat},${this.center.lng}&radius=1500&type=hotels&radius=500&key=AIzaSyBJKll2_6dcmjzCUSEIGXz2CAZlHaGv4S0`).subscribe((data: any) => {
 
       this.loading = false;
@@ -54,7 +57,7 @@ export class AppComponent implements OnInit {
             vicinity: data.vicinity,
             rating: data.rating || 0,
             user_ratings_total: data.user_ratings_total || 0,
-            photo_reference: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${data.photos[0].photo_reference}&maxwidth=1000&key=AIzaSyBJKll2_6dcmjzCUSEIGXz2CAZlHaGv4S0t`
+            photo_reference: `https://maps.googleapis.com/maps/api/place/photo?photoreference=${data.photos[0].photo_reference}&maxwidth=1000&key=AIzaSyBJKll2_6dcmjzCUSEIGXz2CAZlHaGv4S0`
           };
 
           const mapMarkerData: Marker = {
@@ -67,6 +70,7 @@ export class AppComponent implements OnInit {
           this.hotelInfo.push(hptelInfoData);
           this.mapMarkers.push(mapMarkerData);
         });
+        alert('done');
       } else {
         this.error = data.error_message || 'Not able to load hotels';
       }
