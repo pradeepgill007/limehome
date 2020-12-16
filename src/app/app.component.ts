@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
   // hotel detailed information
   hotelInfo: HotelInfo[] = [];
   loading: boolean = true;
+  userLocationAccess: boolean = false;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -44,8 +45,12 @@ export class AppComponent implements OnInit {
       this.center.lat = pos.lat;
       this.center.lng = pos.lng;
       this.getHotelsNearBy();
+      this.userLocationAccess = true;
     });
-    this.getHotelsNearBy();
+
+    if (!this.userLocationAccess) {
+          this.getHotelsNearBy(); 
+    }
   }
 
   /**
@@ -63,14 +68,23 @@ export class AppComponent implements OnInit {
     });
   }
 
+  changeCenter() {
+    this.center.lat = 48.1351;
+    this.center.lng = 11.5820;
+    this.getHotelsNearBy();
+  }
+
    /**
    * @desc this function will get the list of hotels near you within the radius of 500
    * 
    */
   getHotelsNearBy() {
+
     this.loading = true;
     this.hotelInfo = [];
     this.mapMarkers = [];
+    alert(this.hotelInfo.length);
+    alert(this.mapMarkers.length);
     this.httpClient.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.center.lat},${this.center.lng}&radius=1500&type=hotels&radius=500&key=${environment.applicationKey}`).subscribe((data: any) => {
 
       this.loading = false;
