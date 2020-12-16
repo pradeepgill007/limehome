@@ -40,17 +40,24 @@ export class AppComponent implements OnInit {
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
+
     // get the current position of the user
     this.getPosition().then(pos => {
+      console.log('pos', pos)
       this.center.lat = pos.lat;
       this.center.lng = pos.lng;
       this.getHotelsNearBy();
+      this.hotelInfo = [];
+    this.mapMarkers = [];
       this.userLocationAccess = true;
     });
 
     if (!this.userLocationAccess) {
-          this.getHotelsNearBy(); 
+      this.hotelInfo = [];
+    this.mapMarkers = [];
+      this.getHotelsNearBy();
     }
+
   }
 
   /**
@@ -83,8 +90,12 @@ export class AppComponent implements OnInit {
     this.loading = true;
     this.hotelInfo = [];
     this.mapMarkers = [];
-    alert(this.hotelInfo.length);
-    alert(this.mapMarkers.length);
+
+    this.mapMarkers.length = 0;
+    this.hotelInfo.length = 0;
+
+    alert(this.userLocationAccess);
+
     this.httpClient.get(`https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.center.lat},${this.center.lng}&radius=1500&type=hotels&radius=500&key=${environment.applicationKey}`).subscribe((data: any) => {
 
       this.loading = false;
@@ -108,7 +119,9 @@ export class AppComponent implements OnInit {
 
           this.hotelInfo.push(hptelInfoData);
           this.mapMarkers.push(mapMarkerData);
+          this.setMapCenter(this.mapMarkers, 0);
         });
+
       } else {
         this.error = data.error_message || 'Not able to load hotels';
       }
@@ -140,10 +153,13 @@ export class AppComponent implements OnInit {
     });
     
     this.child.slideActivate(index);
+    this.setMapCenter(this.mapMarkers, index);
+  }
 
-    // change the lat value for center
-    const changeLat = {...this.mapMarkers[index].position};
-    changeLat.lat = changeLat.lat - 0.005;
-    this.center = changeLat;
+  setMapCenter(mapMarkers: Marker[], index: number) {
+     // change the lat value for center
+     const changeLat = {...mapMarkers[index].position};
+     changeLat.lat = changeLat.lat - 0.005;
+     this.center = changeLat;
   }
 }
